@@ -1,6 +1,7 @@
 #!/usr/bin/make -f
 
 SHELL := /bin/bash
+.SHELLFLAGS = -e
 .ONESHELL:
 .DEFAULT_GOAL := help
 .TARGETS  := $(shell grep -o '^[a-z]*' $(MAKEFILE_LIST) | xargs echo)
