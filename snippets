@@ -11,15 +11,17 @@ help : ## Prints this message
 	@echo ----------------------------------------
 	@sed -n '/^[a-z]/ s/:.*##/_/ p' $(MAKEFILE_LIST) | column -t -s _
 
-helloworld : ## Example snippet
+helloworld : ## Example snippet.
 	echo hello world
 
-bashbindings : ## prints out bash bindings
+bashbindings : ## Lists bash key bindings.
 	@bind -p | grep -F "\C" | sort | less
 
 edit : ## Open the snippet file in $EDITOR
 	@$$EDITOR $(MAKEFILE_LIST)
 
-completion : ## prints out a bash completion command to source
+completion : ## Prints out a bash completion command to eval
 	@echo complete -W "'$(.TARGETS)'" $(notdir $(MAKEFILE_LIST))
 
+fzf : ## Choose a snippet and run it.
+	@printf '%s\n' $(.TARGETS) | fzf | xargs $(MAKE) -s -f $(MAKEFILE_LIST)
