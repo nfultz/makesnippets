@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+
+SHELL := /bin/bash
+.DEFAULT_GOAL := help
+.TARGETS  := $(shell grep -o '^[a-z]*' $(MAKEFILE_LIST) | xargs echo)
+.PHONY : $(.TARGETS)
+
+# adapted from https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
+help : ## Prints this message
+	@echo Snippet Manager by nfultz
+	@echo ----------------------------------------
+	@sed -n '/^[a-z]/ s/:.*##/_/ p' $(MAKEFILE_LIST) | column -t -s _
+
+helloworld : ## Example snippet
+	echo hello world
+
+bashbindings : ## prints out bash bindings
+	@bind -p | grep -F "\C" | sort | less
+
+edit : ## Open the snippet file in $EDITOR
+	@$$EDITOR $(MAKEFILE_LIST)
+
+completion : ## prints out a bash completion command to source
+	@echo complete -W "'$(.TARGETS)'" $(notdir $(MAKEFILE_LIST))
+
