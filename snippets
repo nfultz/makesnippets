@@ -11,7 +11,7 @@ SHELL := /bin/bash
 help : ## Prints this message
 	@echo Snippet Manager by nfultz
 	@echo ----------------------------------------
-	@sed -n '/^[a-z]/ s/:.*##/_/ p' $(MAKEFILE_LIST) | column -t -s _
+	@sed -n '/^[a-z]/ s/:.*## */_/ p' $(MAKEFILE_LIST) | column -t -s _
 
 helloworld : ## Example snippet.
 	echo hello world
