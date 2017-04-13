@@ -14,6 +14,8 @@ search path and `chmod +x` it.
 
 where target is defined in snippets. You can edit snippets to add more targets.
 
+[![asciicast](https://asciinema.org/a/a856k76bw7ppvtv9v20xepw4t.png)](https://asciinema.org/a/a856k76bw7ppvtv9v20xepw4t)
+
 ## bash integration
 
 In your `.bashrc`, you can enable completions:
