@@ -1,12 +1,35 @@
 # A snippet manager implemented in Makefile
 
 I recently read the No Starch Press _GNU Make Book_ by John Graham-Cumming,
-which inspired me to use `make` a lot more. Also I am a masochist.
+which inspired me to use `make` a lot more. Also I am a masochist. This project
+provides five generic `make` targets for easy access to code snippets:
+
+  * `help` lists the available targets.
+  * `completion` produces the bash command for autocompletion
+  * `fzf` lists the available targets in fuzzy finder, and executes the
+    selected one.
+  * `edit` opens the snippet file in `$EDITOR`
+  * `install` places the snippet file into the system include directory.
+
+It also sets better defaults for code snippets:
+
+  * All targets are `PHONY`
+  * Uses a single shell per snippet instead of per line - you can use shell
+    variables now.
+
 
 ## Installation
 
-Assumming you have `make` installed, you can drop snippets anywhere on your
-search path and `chmod +x` it.
+Option 1: Assumming you have `make` installed, you can drop snippets anywhere
+on your search path and `chmod +x` it. You can then edit the file and add your
+own snippets.
+
+Option 2: You can install snippets as a library using the command:
+
+    sudo make -f snippets install
+
+You can then `-include` it in other makefiles and automatically add the
+functionality to them. See `example`
 
 ## Usage
 

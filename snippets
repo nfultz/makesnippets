@@ -6,7 +6,7 @@ SHELL := /bin/bash
 .DEFAULT_GOAL := help
 .OUTER_MAKEFILE := $(firstword $(MAKEFILE_LIST))
 .TARGETS  := $(shell grep -ho '^[a-z]*' $(.OUTER_MAKEFILE) | xargs echo)
-.PHONY : $(.TARGETS)
+.PHONY : $(.TARGETS) help edit completion fzf install
 
 # adapted from https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help : ## Prints this message
@@ -21,7 +21,7 @@ completion : ## Prints out a bash completion command to eval
 	@echo complete -W "'$(.TARGETS)'" $(notdir $(.OUTER_MAKEFILE))
 
 fzf : ## Choose a snippet and run it.
-	@printf '%s\n' $(.TARGETS) | fzf | xargs $(MAKE) -s -f $(.OUTER_MAKEFILE)
+	@$(MAKE) -s -f $(.OUTER_MAKEFILE) $(shell printf '%s\n' $(.TARGETS) | fzf)
 
 install :
 	install $(.OUTER_MAKEFILE) /usr/local/include

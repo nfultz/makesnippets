@@ -1,0 +1,8 @@
+#!/usr/bin/make -f
+-include snippets
+
+helloworld: ## One example
+	@echo hello $$USER this sure is great.
+
+hiarylah: ## Another example
+	@printf "%s\n" here i am rock you like a hurricane
