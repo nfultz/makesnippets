@@ -16,6 +16,7 @@ It also sets better defaults for code snippets:
   * All targets are `PHONY`
   * Uses a single shell per snippet instead of per line - you can use shell
     variables now.
+  * Default target is help.
 
 
 ## Installation
