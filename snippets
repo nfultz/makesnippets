@@ -4,7 +4,8 @@ SHELL := /bin/bash
 .SHELLFLAGS = -e
 .ONESHELL:
 .DEFAULT_GOAL := help
-.TARGETS  := $(shell grep -o '^[a-z]*' $(MAKEFILE_LIST) | xargs echo)
+.OUTER_MAKEFILE := $(firstword $(MAKEFILE_LIST))
+.TARGETS  := $(shell grep -ho '^[a-z]*' $(.OUTER_MAKEFILE) | xargs echo)
 .PHONY : $(.TARGETS)
 
 # adapted from https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
@@ -13,17 +14,14 @@ help : ## Prints this message
 	@echo ----------------------------------------
 	@sed -n '/^[a-z]/ s/:.*## */_/ p' $(MAKEFILE_LIST) | column -t -s _
 
-helloworld : ## Example snippet.
-	echo hello world
-
-bashbindings : ## Lists bash key bindings.
-	@bind -p | grep -F "\C" | sort | less
-
 edit : ## Open the snippet file in $EDITOR
-	@$$EDITOR $(MAKEFILE_LIST)
+	@$$EDITOR $(.OUTER_MAKEFILE)
 
 completion : ## Prints out a bash completion command to eval
-	@echo complete -W "'$(.TARGETS)'" $(notdir $(MAKEFILE_LIST))
+	@echo complete -W "'$(.TARGETS)'" $(notdir $(.OUTER_MAKEFILE))
 
 fzf : ## Choose a snippet and run it.
-	@printf '%s\n' $(.TARGETS) | fzf | xargs $(MAKE) -s -f $(MAKEFILE_LIST)
+	@printf '%s\n' $(.TARGETS) | fzf | xargs $(MAKE) -s -f $(.OUTER_MAKEFILE)
+
+install :
+	install $(.OUTER_MAKEFILE) /usr/local/include
