@@ -1,11 +1,11 @@
 #!/usr/bin/make -f
 
 SHELL := /bin/bash
-.SHELLFLAGS = -e
+.SHELLFLAGS = -ec
 .ONESHELL:
 .DEFAULT_GOAL := help
 .OUTER_MAKEFILE := $(firstword $(MAKEFILE_LIST))
-.TARGETS  := $(shell grep -ho '^[a-z]*' $(.OUTER_MAKEFILE) | xargs echo)
+.TARGETS  := $(shell grep -ho '^[a-z][a-z\-]*' $(.OUTER_MAKEFILE) | xargs echo)
 .PHONY : $(.TARGETS) help edit completion fzf install
 
 # adapted from https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
@@ -23,5 +23,10 @@ completion : ## Prints out a bash completion command to eval
 fzf : ## Choose a snippet and run it.
 	@$(MAKE) -s -f $(.OUTER_MAKEFILE) $(shell printf '%s\n' $(.TARGETS) | fzf)
 
-install :
-	install $(.OUTER_MAKEFILE) /usr/local/include
+savelast : ## Save the last bash command to snippets
+	@echo -ne "\nlastcmd :\n\t" >> $(.OUTER_MAKEFILE)
+	@tail -n 1  $$HOME/.bash_history >> $(.OUTER_MAKEFILE)
+	@$(MAKE) -s -f $(.OUTER_MAKEFILE) edit
+
+install : ## Copy the snippet file to system include
+	sudo install $(.OUTER_MAKEFILE) /usr/local/include
