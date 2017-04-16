@@ -24,7 +24,7 @@ fzf : ## Choose a snippet and run it.
 	@$(MAKE) -s -f $(.OUTER_MAKEFILE) $(shell printf '%s\n' $(.TARGETS) | fzf)
 
 savelast : ## Save the last bash command to snippets
-	@echo -ne "\nlastcmd :\n\t" >> $(.OUTER_MAKEFILE)
+	@echo -ne "\nlastcmd : ##\n\t" >> $(.OUTER_MAKEFILE)
 	@tail -n 1  $$HOME/.bash_history >> $(.OUTER_MAKEFILE)
 	@$(MAKE) -s -f $(.OUTER_MAKEFILE) edit
 
