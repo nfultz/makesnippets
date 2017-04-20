@@ -7,6 +7,7 @@ SHELL := /bin/bash
 .OUTER_MAKEFILE := $(firstword $(MAKEFILE_LIST))
 .TARGETS  := $(shell grep -ho '^[a-z][a-z\-]*' $(.OUTER_MAKEFILE) | xargs echo)
 .PHONY : $(.TARGETS) help edit completion fzf install
+T := $(findstring screen, $(TERM))
 
 # adapted from https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help : ## Prints this message
@@ -15,7 +16,7 @@ help : ## Prints this message
 	@sed -n '/^[a-z]/ s/:.*## */_/ p' $(MAKEFILE_LIST) | column -t -s _
 
 edit : ## Open the snippet file in $EDITOR
-	@$$EDITOR $(.OUTER_MAKEFILE)
+	@$T $$EDITOR $(.OUTER_MAKEFILE)
 
 completion : ## Prints out a bash completion command to eval
 	@echo complete -W "'$(.TARGETS)'" $(notdir $(.OUTER_MAKEFILE))
