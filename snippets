@@ -5,7 +5,7 @@ SHELL := /bin/bash
 .ONESHELL:
 .DEFAULT_GOAL := help
 .OUTER_MAKEFILE := $(firstword $(MAKEFILE_LIST))
-.TARGETS  := $(shell grep -ho '^[a-z][a-z\-]*' $(.OUTER_MAKEFILE) | xargs echo)
+.TARGETS  := $(shell grep -ho '^[a-z][a-z\-]*' $(MAKEFILE_LIST) | xargs echo)
 .PHONY : $(.TARGETS) help edit completion fzf install
 T := $(findstring screen, $(TERM))
 
@@ -29,5 +29,5 @@ savelast : ## Save the last bash command to snippets
 	@tail -n 1  $$HOME/.bash_history >> $(.OUTER_MAKEFILE)
 	@$(MAKE) -s -f $(.OUTER_MAKEFILE) edit
 
-install : ## Copy the snippet file to system include
+ install : ## Copy the snippet file to system include
 	sudo install $(.OUTER_MAKEFILE) /usr/local/include
