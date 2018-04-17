@@ -5,7 +5,7 @@ SHELL := /bin/bash
 .ONESHELL:
 .DEFAULT_GOAL := help
 .OUTER_MAKEFILE := $(firstword $(MAKEFILE_LIST))
-.TARGETS  := $(shell grep -ho '^[a-z][a-z\-]*' $(.OUTER_MAKEFILE) | xargs echo)
+.TARGETS  := $(shell grep -ho '^[a-z][a-z0-9\-]*' $(.OUTER_MAKEFILE) | xargs echo)
 .PHONY : $(.TARGETS) help edit completion fzf install
 T := $(findstring screen, $(TERM))
 
