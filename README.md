@@ -32,6 +32,11 @@ Option 2: You can install snippets as a library using the command:
 You can then `-include` it in other makefiles and automatically add the
 functionality to them. See `example`
 
+Option 3: Unsafe one liner
+
+    sudo wget -P /usr/local/include https://github.com/nfultz/makesnippets/raw/master/snippets
+
+
 ## Usage
 
     $ snippets <target>
