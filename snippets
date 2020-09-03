@@ -21,6 +21,12 @@ edit : ## Open the snippet file in $EDITOR
 completion : ## Prints out a bash completion command to eval
 	@echo complete -W "'$(.TARGETS)'" $(notdir $(.OUTER_MAKEFILE))
 
+ bind-fzf :
+	@FMT="bind '\"%s\":\"%s\"'\n"
+	@KEY=$${KEY:-\\C-e}
+	@ACTION=" $(notdir $(.OUTER_MAKEFILE)) fzf\n"
+	@printf "$$FMT" "$$KEY" "$$ACTION"
+
 fzf : ## Choose a snippet and run it.
 	@$(MAKE) -s -f $(.OUTER_MAKEFILE) $(shell printf '%s\n' $(.TARGETS) | fzf)
 
