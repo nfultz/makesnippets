@@ -12,7 +12,7 @@ SHELL := /bin/bash
 help : ## Prints this message
 	@echo Snippet Manager by nfultz
 	@echo ----------------------------------------
-	@sed -n '/^[a-z]/ s/:.*## */_/ p' $(MAKEFILE_LIST) | column -t -s _
+	@sed -n '/^[a-z]/ s/ *:.*## */_/ p' $(MAKEFILE_LIST) | column -t -s _ | sort
 
 edit : ## Open the snippet file in $EDITOR
 	$${STY+screen -t snips} $$EDITOR $(.OUTER_MAKEFILE)
