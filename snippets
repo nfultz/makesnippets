@@ -15,7 +15,7 @@ help : ## Prints this message
 	@sed -n '/^[a-z]/ s/ *:.*## */_/ p' $(MAKEFILE_LIST) | column -t -s _ | sort
 
 edit : ## Open the snippet file in $EDITOR
-	$${STY+screen -t snips} $$EDITOR $(.OUTER_MAKEFILE)
+	@$${STY+screen -t snips} $$EDITOR $(.OUTER_MAKEFILE)
 
 completion : ## Prints out a bash completion command to eval
 	@echo complete -W "'$(.TARGETS)'" $(notdir $(.OUTER_MAKEFILE))
